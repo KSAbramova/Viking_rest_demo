@@ -1,4 +1,3 @@
-
 package ru.mephi.vikingdemo.service;
 
 import java.util.List;

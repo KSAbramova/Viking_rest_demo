@@ -12,6 +12,10 @@ import ru.mephi.vikingdemo.service.VikingService;
 
 import java.util.List;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 @RequestMapping("/api/vikings")
@@ -51,5 +55,46 @@ public class VikingController {
     @PostMapping("/post")
     public void addViking(){
         vikingListener.testAdd();
+    }
+
+    @PostMapping
+    @Operation(summary = "Добавить конкретного викинга", 
+            operationId = "addViking")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Викинг успешно добавлен"),
+            @ApiResponse(responseCode = "400", description = "Некорректные данные")
+    })
+    public Viking addViking(@RequestBody Viking viking) {
+        System.out.println("POST /api/vikings called with: " + viking.name());
+            Viking result = vikingService.addViking(viking);
+            vikingListener.notifyVikingAdded(result);
+            return vikingService.addViking(viking);
+    }
+
+    @DeleteMapping("/delete/{name}")
+    @Operation(summary = "Удалить викинга", 
+            operationId = "deleteViking")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Викинг успешно удален"),
+            @ApiResponse(responseCode = "404", description = "Викинг не найден")
+    })
+    public void deleteViking(@PathVariable String name) {
+        System.out.println("DELETE /api/vikings/" + name + " called");
+            vikingService.deleteViking(name);
+            vikingListener.notifyVikingDeleted(name);
+    }
+
+    @PutMapping("/{name}")
+    @Operation(summary = "Изменить данные конкретного викинга", 
+            operationId = "updateViking")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Викинг успешно обновлен"),
+            @ApiResponse(responseCode = "404", description = "Викинг не найден")
+    })
+    public Viking updateViking(@PathVariable String name, @RequestBody Viking updatedViking) {
+        System.out.println("PUT /api/vikings/" + name + " called");
+        Viking result = vikingService.updateViking(name, updatedViking);
+        vikingListener.notifyVikingUpdated(result);
+        return vikingService.updateViking(name, updatedViking);
     }
 }

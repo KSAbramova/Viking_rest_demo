@@ -65,10 +65,10 @@ public class VikingController {
             @ApiResponse(responseCode = "400", description = "Некорректные данные")
     })
     public Viking addViking(@RequestBody Viking viking) {
-        System.out.println("POST /api/vikings called with: " + viking.name());
+        System.out.println("POST /api/vikings called: " + viking.name());
             Viking result = vikingService.addViking(viking);
             vikingListener.notifyVikingAdded(result);
-            return vikingService.addViking(viking);
+            return result;
     }
 
     @DeleteMapping("/delete/{name}")
@@ -95,6 +95,6 @@ public class VikingController {
         System.out.println("PUT /api/vikings/" + name + " called");
         Viking result = vikingService.updateViking(name, updatedViking);
         vikingListener.notifyVikingUpdated(result);
-        return vikingService.updateViking(name, updatedViking);
+        return result;
     }
 }

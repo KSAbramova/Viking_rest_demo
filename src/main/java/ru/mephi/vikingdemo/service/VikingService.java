@@ -6,6 +6,8 @@ import ru.mephi.vikingdemo.model.Viking;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
+import ru.mephi.vikingdemo.model.BeardStyle;
+import ru.mephi.vikingdemo.model.HairColor;
 
 @Service
 public class VikingService {
@@ -30,7 +32,10 @@ public class VikingService {
         return viking;
     }
 
-    public Viking addViking(Viking viking) {
+    public Viking addVikingGUI(String name, int age, int height, HairColor hair, BeardStyle beard) {
+        
+        Viking viking = vikingFactory.createCustomViking(name, age, height, hair, beard);
+        
         boolean exists = vikings.stream()
                 .anyMatch(v -> v.name().equalsIgnoreCase(viking.name()));
 
@@ -42,10 +47,28 @@ public class VikingService {
         return viking;
     }
 
-    public void deleteViking(String name) {
-        boolean removed = vikings.removeIf(v -> v.name().equalsIgnoreCase(name));
+     public Viking addViking(Viking viking) {
+        boolean exists = vikings.stream()
+                .anyMatch(v -> v.name().equalsIgnoreCase(viking.name()));
 
-        if (!removed) {
+        if (exists) {
+            throw new RuntimeException("Viking with name " + viking.name() + " already exists");
+        }
+
+        vikings.add(viking);
+        return viking;
+    }
+     
+    public void deleteViking(String name) {
+        int index = -1;
+        for (int i = 0; i < vikings.size(); i++) {
+            if (vikings.get(i).name().equalsIgnoreCase(name)) {
+                index = i;
+                break;
+            }
+        }
+        
+        if (index == -1) {
             throw new RuntimeException("Viking with name " + name + " not found");
         }
     }
@@ -63,16 +86,7 @@ public class VikingService {
             throw new RuntimeException("Viking with name " + name + " not found");
         }
 
-        Viking vikingToUpdate = new Viking( 
-                name,
-                updatedViking.age(),
-                updatedViking.heightCm(),
-                updatedViking.hairColor(),
-                updatedViking.beardStyle(),
-                updatedViking.equipment()
-        );
-
-        vikings.set(index, vikingToUpdate);
-        return vikingToUpdate;
+        vikings.set(index, updatedViking);
+        return updatedViking;
     }
 }

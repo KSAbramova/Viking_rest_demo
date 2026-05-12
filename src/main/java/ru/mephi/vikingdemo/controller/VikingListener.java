@@ -20,8 +20,10 @@ public class VikingListener {
         this.gui = gui;
     }
 
-    void testAdd() {
-        gui.addNewViking(service.createRandomViking());
+    public void testAdd() {
+        if (gui != null) {
+            gui.addNewViking(service.createRandomViking());
+        }
     }
 
     public void notifyVikingAdded(Viking viking) {

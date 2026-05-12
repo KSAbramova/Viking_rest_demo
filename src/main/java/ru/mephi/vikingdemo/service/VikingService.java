@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.mephi.vikingdemo.model.BeardStyle;
+import ru.mephi.vikingdemo.model.EquipmentItem;
 import ru.mephi.vikingdemo.model.HairColor;
 
 @Service
@@ -32,22 +33,10 @@ public class VikingService {
         return viking;
     }
 
-    public Viking addVikingGUI(String name, int age, int height, HairColor hair, BeardStyle beard) {
+    public Viking addViking(String name, int age, int height, HairColor hair, BeardStyle beard) {
         
         Viking viking = vikingFactory.createCustomViking(name, age, height, hair, beard);
         
-        boolean exists = vikings.stream()
-                .anyMatch(v -> v.name().equalsIgnoreCase(viking.name()));
-
-        if (exists) {
-            throw new RuntimeException("Viking with name " + viking.name() + " already exists");
-        }
-
-        vikings.add(viking);
-        return viking;
-    }
-
-     public Viking addViking(Viking viking) {
         boolean exists = vikings.stream()
                 .anyMatch(v -> v.name().equalsIgnoreCase(viking.name()));
 
@@ -73,7 +62,8 @@ public class VikingService {
         }
     }
 
-    public Viking updateViking(String name, Viking updatedViking) { 
+    
+    public Viking updateViking(String name, int age, int height, HairColor hair, BeardStyle beard, List<EquipmentItem> equipment) { 
         int index = -1;
         for (int i = 0; i < vikings.size(); i++) {
             if (vikings.get(i).name().equalsIgnoreCase(name)) {
@@ -85,7 +75,8 @@ public class VikingService {
         if (index == -1) {
             throw new RuntimeException("Viking with name " + name + " not found");
         }
-
+        
+        Viking updatedViking = vikingFactory.updateViking(name, age, height, hair, beard, equipment);
         vikings.set(index, updatedViking);
         return updatedViking;
     }

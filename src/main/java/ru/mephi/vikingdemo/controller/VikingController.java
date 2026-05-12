@@ -66,7 +66,8 @@ public class VikingController {
     })
     public Viking addViking(@RequestBody Viking viking) {
         System.out.println("POST /api/vikings called: " + viking.name());
-            Viking result = vikingService.addViking(viking);
+            Viking result = vikingService.addViking(viking.name(), viking.age(), viking.heightCm(), 
+                viking.hairColor(), viking.beardStyle());
             vikingListener.notifyVikingAdded(result);
             return result;
     }
@@ -91,9 +92,10 @@ public class VikingController {
             @ApiResponse(responseCode = "200", description = "Викинг успешно обновлен"),
             @ApiResponse(responseCode = "404", description = "Викинг не найден")
     })
-    public Viking updateViking(@PathVariable String name, @RequestBody Viking updatedViking) {
-        System.out.println("PUT /api/vikings/" + name + " called");
-        Viking result = vikingService.updateViking(name, updatedViking);
+    public Viking updateViking(@RequestBody Viking updatedViking) {
+        System.out.println("PUT /api/vikings/" + updatedViking.name() + " called");
+        Viking result = vikingService.updateViking(updatedViking.name(), updatedViking.age(), updatedViking.heightCm(), 
+                updatedViking.hairColor(), updatedViking.beardStyle(), updatedViking.equipment());
         vikingListener.notifyVikingUpdated(result);
         return result;
     }

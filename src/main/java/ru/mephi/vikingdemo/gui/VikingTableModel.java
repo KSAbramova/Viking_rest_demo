@@ -67,3 +67,6 @@ public class VikingTableModel extends AbstractTableModel {
         fireTableRowsUpdated(row, row);
     }
 }
+
+//таблица должна отвечать за строки
+//а не гуи 

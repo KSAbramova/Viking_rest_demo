@@ -33,4 +33,10 @@ public class VikingFactory {
                 EquipmentFactory.createItem()
         );
     }
+    
+    public Viking createCustomViking(String name, int age, int height, HairColor hair, BeardStyle beard) {
+        return new Viking(
+                name, age, height, hair, beard,
+                createRandomEquipment());
+    }
 }

@@ -68,5 +68,3 @@ public class VikingTableModel extends AbstractTableModel {
     }
 }
 
-//таблица должна отвечать за строки
-//а не гуи 

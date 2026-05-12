@@ -78,8 +78,7 @@ public class VikingDesktopFrame extends JFrame {
             BeardStyle beard = (BeardStyle) JOptionPane.showInputDialog(this, "Beard style:", "Select",
                     JOptionPane.QUESTION_MESSAGE, null, BeardStyle.values(), BeardStyle.SHORT);
 
-            Viking newViking = vikingService.addViking(new Viking(name, age, height, hair, beard,
-                    List.of(EquipmentFactory.createItem(), EquipmentFactory.createItem())));
+            Viking newViking = vikingService.addVikingGUI(name, age, height, hair, beard);
             tableModel.addViking(newViking);
             JOptionPane.showMessageDialog(this, "Added");
         } catch (Exception e) {

@@ -8,9 +8,6 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
 import ru.mephi.vikingdemo.model.*;
-import ru.mephi.vikingdemo.service.EquipmentFactory;
-import java.util.List;
-
 
 public class VikingDesktopFrame extends JFrame {
 
@@ -78,7 +75,7 @@ public class VikingDesktopFrame extends JFrame {
             BeardStyle beard = (BeardStyle) JOptionPane.showInputDialog(this, "Beard style:", "Select",
                     JOptionPane.QUESTION_MESSAGE, null, BeardStyle.values(), BeardStyle.SHORT);
 
-            Viking newViking = vikingService.addViking(name, age, height, hair, beard);
+            Viking newViking = vikingService.addVikingGUI(name, age, height, hair, beard);
             tableModel.addViking(newViking);
             JOptionPane.showMessageDialog(this, "Added");
         } catch (Exception e) {
@@ -120,7 +117,7 @@ public class VikingDesktopFrame extends JFrame {
                     JOptionPane.QUESTION_MESSAGE, null, BeardStyle.values(), old.beardStyle());
             if (newBeard == null) return;
 
-            Viking updated = vikingService.updateViking(old.name(), newAge, newHeight, newHair, newBeard, old.equipment());       
+            Viking updated = vikingService.updateVikingGUI(old.name(), newAge, newHeight, newHair, newBeard, old.equipment());       
             tableModel.updateViking(row, updated);
             JOptionPane.showMessageDialog(this, "Updated");
         } catch (Exception e) {

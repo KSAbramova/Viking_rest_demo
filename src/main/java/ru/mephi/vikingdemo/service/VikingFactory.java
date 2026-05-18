@@ -40,8 +40,12 @@ public class VikingFactory {
                 createRandomEquipment());
     }
 
-    public Viking updateViking(String name, int age, int height, HairColor hair, BeardStyle beard, List<EquipmentItem> equipment) {
+    public Viking updateVikingGUI(String name, int age, int height, HairColor hair, BeardStyle beard, List<EquipmentItem> equipment) {
         return new Viking(
                 name, age, height, hair, beard, equipment);
+    }
+    
+    public Viking updateViking(Viking viking) {
+        return viking;
     }
 }

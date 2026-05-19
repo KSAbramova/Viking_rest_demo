@@ -72,6 +72,7 @@ public class VikingService {
         if (index == -1) {
             throw new RuntimeException("Viking with name " + name + " not found");
         }
+        vikings.remove(index);
     }
 
     
